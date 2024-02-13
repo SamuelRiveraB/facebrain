@@ -1,4 +1,4 @@
-const ImageLinkForm = () => {
+const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
   return (
     <div className="flex flex-col justify-center">
       <p className="text-xl">
@@ -8,8 +8,12 @@ const ImageLinkForm = () => {
         <input
           className="w-[70%] text-xl bg-indigo-300 p-1 rounded-l-full shadow-xl"
           type="text"
+          onChange={onInputChange}
         />
-        <button className="w-[30%] bg-indigo-600 rounded-r-full shadow-xl cursor-pointer">
+        <button
+          className="w-[30%] bg-indigo-600 rounded-r-full shadow-xl cursor-pointer"
+          onClick={onButtonSubmit}
+        >
           Detect
         </button>
       </div>
