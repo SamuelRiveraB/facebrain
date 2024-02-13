@@ -5,21 +5,25 @@ import ImageLinkForm from "@/components/ImageLinkForm/ImageLinkForm";
 import Logo from "@/components/Logo/Logo";
 import Navigation from "@/components/Navigation/Navigation";
 import Particles from "@/components/Particles/Particles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
-  const [srcImg, setSrcImg] = useState(
-    "https://samples.clarifai.com/metro-north.jpg"
-  );
+  const [input, setInput] = useState("a");
+  const [srcImg, setSrcImg] = useState("");
+  const [boxes, setBoxes] = useState([]);
 
   const onInputChange = (e) => {
-    console.log(e.target.value);
-    setSrcImg(e.target.value);
+    setInput(e.target.value);
+  };
+
+  const handleFocus = (e) => {
+    e.target.select();
   };
 
   const onSubmit = () => {
+    console.log(input);
     console.log("click");
-
+    setSrcImg(input);
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // In this section, we set the user authentication, user and app ID, model details, and the URL
     // of the image we want as an input. Change these strings to run your own example.
@@ -33,7 +37,7 @@ export default function Home() {
     const APP_ID = "main";
     // Change these to whatever model and image URL you want to use
     const MODEL_ID = "face-detection";
-    const IMAGE_URL = srcImg;
+    const IMAGE_URL = input;
     ///////////////////////////////////////////////////////////////////////////////////
     // YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE TO RUN THIS EXAMPLE
     ///////////////////////////////////////////////////////////////////////////////////
@@ -70,32 +74,45 @@ export default function Home() {
     )
       .then((response) => response.json())
       .then((result) => {
+        const image = document.getElementById("faceImg");
+        const width = Number(image.width);
+        const height = Number(image.height);
+        const boxes = [];
         const regions = result.outputs[0].data.regions;
 
         regions.forEach((region) => {
           // Accessing and rounding the bounding box values
           const boundingBox = region.region_info.bounding_box;
-          const topRow = boundingBox.top_row.toFixed(3);
-          const leftCol = boundingBox.left_col.toFixed(3);
-          const bottomRow = boundingBox.bottom_row.toFixed(3);
-          const rightCol = boundingBox.right_col.toFixed(3);
+          const topRow = height * boundingBox.top_row;
+          const leftCol = width * boundingBox.left_col;
+          const bottomRow = height - height * boundingBox.bottom_row;
+          const rightCol = width - width * boundingBox.right_col;
 
-          region.data.concepts.forEach((concept) => {
-            // Accessing and rounding the concept value
-            const name = concept.name;
-            const value = concept.value.toFixed(4);
+          const newBox = {
+            topRow: topRow,
+            leftCol: leftCol,
+            bottomRow: bottomRow,
+            rightCol: rightCol,
+          };
 
-            console.log(
-              `${name}: ${value} BBox: ${topRow}, ${leftCol}, ${bottomRow}, ${rightCol}`
-            );
-          });
+          // region.data.concepts.forEach((concept) => {
+          //   // Accessing and rounding the concept value
+          //   const name = concept.name;
+          //   const value = concept.value.toFixed(4);
+
+          //   console.log(
+          //     `${name}: ${value} BBox: ${topRow}, ${leftCol}, ${bottomRow}, ${rightCol}`
+          //   );
+          // });
+          boxes.push(newBox);
         });
+        setBoxes(boxes);
       })
       .catch((error) => console.log("error", error));
   };
 
   return (
-    <main className="relative h-[100vh] flex flex-col p-5 ">
+    <main className="relative h-fit min-h-[100vh] flex flex-col p-5 ">
       <Particles />
       <div className="flex justify-between">
         <Logo />
@@ -105,8 +122,9 @@ export default function Home() {
         <ImageLinkForm
           onInputChange={onInputChange}
           onButtonSubmit={onSubmit}
+          onInputFocus={handleFocus}
         />
-        <FaceRecognition srcImg={srcImg} />
+        <FaceRecognition srcImg={srcImg} boxes={boxes} />
       </div>
     </main>
   );
