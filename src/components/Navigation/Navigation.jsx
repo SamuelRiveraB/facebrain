@@ -1,7 +1,12 @@
-const Navigation = () => {
+const Navigation = ({ onRouteChange }) => {
   return (
     <div>
-      <p className="underline cursor-pointer">Sign Out</p>
+      <p
+        onClick={() => onRouteChange("signin")}
+        className="underline cursor-pointer"
+      >
+        Sign Out
+      </p>
     </div>
   );
 };

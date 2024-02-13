@@ -5,12 +5,19 @@ import ImageLinkForm from "@/components/ImageLinkForm/ImageLinkForm";
 import Logo from "@/components/Logo/Logo";
 import Navigation from "@/components/Navigation/Navigation";
 import Particles from "@/components/Particles/Particles";
+import Register from "@/components/Register/Register";
+import Signin from "@/components/Signin/Signin";
 import { useState } from "react";
 
 export default function Home() {
-  const [input, setInput] = useState("a");
+  const [route, setRoute] = useState("signin");
+  const [input, setInput] = useState("");
   const [srcImg, setSrcImg] = useState("");
   const [boxes, setBoxes] = useState([]);
+
+  const onRouteChange = (route) => {
+    setRoute(route);
+  };
 
   const onInputChange = (e) => {
     setInput(e.target.value);
@@ -114,18 +121,26 @@ export default function Home() {
   return (
     <main className="relative h-fit min-h-[100vh] flex flex-col p-5 ">
       <Particles />
-      <div className="flex justify-between">
-        <Logo />
-        <Navigation />
-      </div>
-      <div className="flex flex-col justify-center gap-20 items-center p-10 h-[100vh]">
-        <ImageLinkForm
-          onInputChange={onInputChange}
-          onButtonSubmit={onSubmit}
-          onInputFocus={handleFocus}
-        />
-        <FaceRecognition srcImg={srcImg} boxes={boxes} />
-      </div>
+      {route === "home" ? (
+        <>
+          <div className="flex justify-between">
+            <Logo />
+            <Navigation onRouteChange={onRouteChange} />
+          </div>
+          <div className="flex flex-col justify-center gap-20 items-center p-10 h-[100vh]">
+            <ImageLinkForm
+              onInputChange={onInputChange}
+              onButtonSubmit={onSubmit}
+              onInputFocus={handleFocus}
+            />
+            <FaceRecognition srcImg={srcImg} boxes={boxes} />
+          </div>
+        </>
+      ) : route === "signin" ? (
+        <Signin onRouteChange={onRouteChange} />
+      ) : (
+        <Register onRouteChange={onRouteChange} />
+      )}
     </main>
   );
 }
