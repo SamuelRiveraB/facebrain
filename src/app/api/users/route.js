@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const database = {
+export const database = {
   users: [
     {
       id: "123",
@@ -34,7 +34,7 @@ export async function POST(req) {
       joined: new Date().toISOString(),
     };
     database.users.push(newUser);
-    return NextResponse.json(newUser, { status: 201 }); // Use NextResponse to send the response
+    return NextResponse.json(newUser, { status: 201 });
   } else {
     const user = database.users.find(
       (user) => user.email === email && user.password === password

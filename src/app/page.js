@@ -14,7 +14,10 @@ export default function Home() {
   const [boxes, setBoxes] = useState([]);
 
   useEffect(() => {
-    redirect("/signin");
+    // redirect("/signin");
+    fetch("http://localhost:3000/api/users/")
+      .then((res) => res.json())
+      .then(console.log);
   }, []);
 
   const onRouteChange = (route) => {
