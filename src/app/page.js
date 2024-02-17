@@ -33,94 +33,30 @@ export default function Home() {
   };
 
   const onSubmit = () => {
-    console.log(input);
-    console.log("click");
     setSrcImg(input);
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    // In this section, we set the user authentication, user and app ID, model details, and the URL
-    // of the image we want as an input. Change these strings to run your own example.
-    //////////////////////////////////////////////////////////////////////////////////////////////////
+    const image = document.getElementById("faceImg");
+    const imgW = Number(image.width);
+    const imgH = Number(image.height);
 
-    // Your PAT (Personal Access Token) can be found in the portal under Authentification
-    const PAT = "";
-    // Specify the correct user_id/app_id pairings
-    // Since you're making inferences outside your app's scope
-    const USER_ID = "clarifai";
-    const APP_ID = "main";
-    // Change these to whatever model and image URL you want to use
-    const MODEL_ID = "face-detection";
-    const IMAGE_URL = input;
-    ///////////////////////////////////////////////////////////////////////////////////
-    // YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE TO RUN THIS EXAMPLE
-    ///////////////////////////////////////////////////////////////////////////////////
-
-    const raw = JSON.stringify({
-      user_app_id: {
-        user_id: USER_ID,
-        app_id: APP_ID,
-      },
-      inputs: [
-        {
-          data: {
-            image: {
-              url: IMAGE_URL,
-              // "base64": IMAGE_BYTES_STRING
-            },
-          },
-        },
-      ],
-    });
-
-    const requestOptions = {
+    fetch("http://localhost:3000/api/clarifai", {
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: "Key " + PAT,
-      },
-      body: raw,
-    };
-
-    fetch(
-      "https://api.clarifai.com/v2/models/" + MODEL_ID + "/outputs",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        const image = document.getElementById("faceImg");
-        const width = Number(image.width);
-        const height = Number(image.height);
-        const boxes = [];
-        const regions = result.outputs[0].data.regions;
-
-        regions.forEach((region) => {
-          // Accessing and rounding the bounding box values
-          const boundingBox = region.region_info.bounding_box;
-          const topRow = height * boundingBox.top_row;
-          const leftCol = width * boundingBox.left_col;
-          const bottomRow = height - height * boundingBox.bottom_row;
-          const rightCol = width - width * boundingBox.right_col;
-
-          const newBox = {
-            topRow: topRow,
-            leftCol: leftCol,
-            bottomRow: bottomRow,
-            rightCol: rightCol,
-          };
-
-          // region.data.concepts.forEach((concept) => {
-          //   // Accessing and rounding the concept value
-          //   const name = concept.name;
-          //   const value = concept.value.toFixed(4);
-
-          //   console.log(
-          //     `${name}: ${value} BBox: ${topRow}, ${leftCol}, ${bottomRow}, ${rightCol}`
-          //   );
-          // });
-          boxes.push(newBox);
-        });
-        setBoxes(boxes);
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        input: input,
+        imgW: imgW,
+        imgH: imgH,
+      }),
+    })
+      .then((res) => {
+        return res.json();
       })
-      .catch((error) => console.log("error", error));
+      .then((data) => {
+        // console.log("Response:", data);
+        setBoxes(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
