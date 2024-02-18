@@ -32,31 +32,41 @@ export default function Home() {
     e.target.select();
   };
 
-  const onSubmit = () => {
-    setSrcImg(input);
-    const image = document.getElementById("faceImg");
-    const imgW = Number(image.width);
-    const imgH = Number(image.height);
+  const onSubmit = (e) => {
+    if (input !== "") {
+      console.log(input);
+      setSrcImg(input);
+      console.log(srcImg);
+      const image = document.getElementById("faceImg");
 
-    fetch("http://localhost:3000/api/clarifai", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        input: input,
-        imgW: imgW,
-        imgH: imgH,
-      }),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        // console.log("Response:", data);
-        setBoxes(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+      image.addEventListener("load", () => {
+        const imgW = Number(image.width);
+        const imgH = Number(image.height);
+        console.log(imgW, imgH);
+
+        if (imgH !== 0) {
+          fetch("http://localhost:3000/api/clarifai", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              input: input,
+              imgW: imgW,
+              imgH: imgH,
+            }),
+          })
+            .then((res) => {
+              return res.json();
+            })
+            .then((data) => {
+              console.log("Response:", data);
+              setBoxes(data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        }
       });
+    }
   };
 
   return (

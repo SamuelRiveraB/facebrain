@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   const { input, imgW, imgH } = await req.json();
   // Your PAT (Personal Access Token) can be found in the portal under Authentification
-  const PAT = "";
+  const PAT = process.env.PAT;
   // Specify the correct user_id/app_id pairings
   // Since you're making inferences outside your app's scope
   const USER_ID = "clarifai";
