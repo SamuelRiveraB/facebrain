@@ -34,15 +34,15 @@ export default function Home() {
 
   const onSubmit = (e) => {
     if (input !== "") {
-      console.log(input);
+      // console.log(input);
       setSrcImg(input);
-      console.log(srcImg);
+      // console.log(srcImg);
       const image = document.getElementById("faceImg");
 
       image.addEventListener("load", () => {
         const imgW = Number(image.width);
         const imgH = Number(image.height);
-        console.log(imgW, imgH);
+        // console.log(imgW, imgH);
 
         if (imgH !== 0) {
           fetch("http://localhost:3000/api/clarifai", {
