@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  facebrain:
+    container_name: facebrain
+    #image: node:21.5.0
+    build: ./
+    command: npx next dev
+    working_dir: /usr/src/facebrain
+    ports:
+      - "3000:3000"
