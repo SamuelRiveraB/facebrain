@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   facebrain:
@@ -7,7 +7,20 @@ services:
     build: ./
     command: npx next dev
     working_dir: /usr/src/facebrain
+    environment:
+      POSTGRES_URI: postgres://test:test@postgres:5432/facebrain
     ports:
       - "3000:3000"
     volumes:
-     - "./:/usr/src/facebrain"
+      - "./:/usr/src/facebrain"
+
+  postgres:
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: facebrain
+      POSTGRES_HOST: postgres
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
