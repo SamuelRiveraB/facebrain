@@ -8,19 +8,26 @@ services:
     command: npx next dev
     working_dir: /usr/src/facebrain
     environment:
-      POSTGRES_URI: postgres://test:test@postgres:5432/facebrain-docker
+      # POSTGRES_URI: postgres://test:test@postgres:5432/facebrain-docker
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: facebrain-docker
+      # POSTGRES_HOST: postgres
+    links:
+      - postgres
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
-      - "./:/usr/src/facebrain"
+      - ./:/usr/src/facebrain
 
   postgres:
+    container_name: postgres
+    restart: always
     environment:
       POSTGRES_USER: test
       POSTGRES_PASSWORD: test
       POSTGRES_DB: facebrain-docker
       POSTGRES_HOST: postgres
-    container_name: postgres
-    build: ./postgres
+    image: postgres:latest
     ports:
-      - "5432:5432"
+      - 5432:5432
