@@ -1,18 +1,37 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Navigation = ({ onRouteChange }) => {
   const [dropdown, setDropdown] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (imgRef.current && !imgRef.current.contains(event.target)) {
+        setDropdown(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div>
       <div className="photo-wrapper">
-        <img
-          className="w-10 h-10 rounded-full mx-auto cursor-pointer"
-          src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp"
-          alt="John Doe"
-          onClick={() => setDropdown(!dropdown)}
-          onBlur={() => console.log("blur")}
-        ></img>
+        <div onBlur={() => console.log("blur")}>
+          <img
+            ref={imgRef}
+            className="w-10 h-10 rounded-full mx-auto cursor-pointer"
+            src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp"
+            alt="John Doe"
+            onClick={() => setDropdown(!dropdown)}
+            onBlur={() => console.log("blur")}
+          ></img>
+        </div>
       </div>
       <div
         id="dropdown"
