@@ -35,3 +35,27 @@ export async function GET(res, { params }) {
   //     return NextResponse.json({ error: err }, { status: 400 });
   //   });
 }
+
+export async function PUT(req, { params }) {
+  try {
+    const { id } = params;
+    const { name, age, pet } = await req.json();
+    return db
+      .update({ name, age, pet })
+      .from("users")
+      .where({ id })
+      .then((res) => {
+        if (res) {
+          return NextResponse.json("User updated successfully");
+        } else {
+          return NextResponse.json(
+            { error: "Error updating user" },
+            { status: 400 }
+          );
+        }
+      });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    return NextResponse.json({ error: "Error updating user" }, { status: 400 });
+  }
+}

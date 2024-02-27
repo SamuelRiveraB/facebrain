@@ -6,7 +6,9 @@ import ProfileImage from "../ProfileImage/ProfileImage";
 const Modal = ({ closeProfile }) => {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
-  console.log(user.name);
+  const [name, setName] = React.useState(user.name);
+  const [age, setAge] = React.useState(user.age);
+  const [pet, setPet] = React.useState(user.pet);
 
   return createPortal(
     <div className="absolute top-0 left-0 flex justify-center items-center z-40 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh]">
@@ -18,7 +20,8 @@ const Modal = ({ closeProfile }) => {
           <div className="p-4 md:p-12 text-center lg:text-left">
             <ProfileImage w={20} h={20} />
 
-            <h1 className="text-3xl pt-8">{user.name}</h1>
+            <h1 className="text-3xl pt-8">{name}</h1>
+            <h1 className="text-3xl pt-8">Member since {user.joined}</h1>
             <div className="mx-auto w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
 
             <div className="mx-auto w-4/5 mt-5">
@@ -31,6 +34,7 @@ const Modal = ({ closeProfile }) => {
                 </label>
                 <div className="mt-2">
                   <input
+                    defaultValue={"Hello"}
                     id="name"
                     name="name"
                     type="name"
