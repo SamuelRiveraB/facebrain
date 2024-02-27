@@ -41,6 +41,8 @@ export async function POST(req, res) {
           name: name,
           email: loginEmail[0].email,
           joined: new Date(),
+          age: 18,
+          pet: "",
         });
 
         console.log(user);
