@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-const Navigation = ({ onRouteChange }) => {
+const Navigation = ({ openProfile }) => {
   const [dropdown, setDropdown] = useState(false);
   const imgRef = useRef(null);
 
@@ -43,33 +43,17 @@ const Navigation = ({ onRouteChange }) => {
           className="py-2 text-sm text-gray-700 dark:text-gray-200"
           aria-labelledby="dropdownDefaultButton"
         >
-          <li>
-            <a
-              href="#"
+          <li className="cursor-pointer">
+            <p
               className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              onClick={openProfile}
             >
-              Dashboard
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >
-              Settings
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            >
-              Earnings
-            </a>
+              Profile
+            </p>
           </li>
           <li>
             <Link href={"/signin"}>
-              <p className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              <p className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                 Sign out
               </p>
             </Link>

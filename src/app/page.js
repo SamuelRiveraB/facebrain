@@ -3,6 +3,7 @@
 import FaceRecognition from "@/components/FaceRecognition/FaceRecognition";
 import ImageLinkForm from "@/components/ImageLinkForm/ImageLinkForm";
 import Logo from "@/components/Logo/Logo";
+import Profile from "@/components/Profile/Profile";
 import Navigation from "@/components/Navigation/Navigation";
 import Particles from "@/components/Particles/Particles";
 import { redirect } from "next/navigation";
@@ -12,6 +13,7 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [srcImg, setSrcImg] = useState("");
   const [boxes, setBoxes] = useState([]);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     // redirect("/signin");
@@ -73,9 +75,13 @@ export default function Home() {
   return (
     <main className="relative min-h-full flex flex-col p-5 md:gap-60">
       <Particles />
+      {modal && <Profile closeProfile={() => setModal(false)} />}
       <div className="flex justify-between">
         <Logo />
-        <Navigation onRouteChange={onRouteChange} />
+        <Navigation
+          onRouteChange={onRouteChange}
+          openProfile={() => setModal(true)}
+        />
       </div>
       <div className="flex flex-col justify-center gap-20 items-center p-10">
         <ImageLinkForm
