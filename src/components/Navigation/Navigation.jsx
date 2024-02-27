@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import ProfileImage from "../ProfileImage/ProfileImage";
 
 const Navigation = ({ openProfile }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -22,15 +23,8 @@ const Navigation = ({ openProfile }) => {
   return (
     <div>
       <div className="photo-wrapper">
-        <div onBlur={() => console.log("blur")}>
-          <img
-            ref={imgRef}
-            className="w-10 h-10 rounded-full mx-auto cursor-pointer"
-            src="https://www.gravatar.com/avatar/2acfb745ecf9d4dccb3364752d17f65f?s=260&d=mp"
-            alt="John Doe"
-            onClick={() => setDropdown(!dropdown)}
-            onBlur={() => console.log("blur")}
-          ></img>
+        <div onClick={() => setDropdown(!dropdown)}>
+          <ProfileImage imgRef={imgRef} w={10} h={10} />
         </div>
       </div>
       <div
