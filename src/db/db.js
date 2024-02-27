@@ -2,7 +2,12 @@ const knex = require("knex");
 
 const db = knex({
   client: "pg",
-  connection: process.env.POSTGRES_URI,
+  connection: {
+    host: "127.0.0.1",
+    user: "samuelrivera",
+    password: "",
+    database: "facebrain",
+  },
 });
 
 // db.select("*")

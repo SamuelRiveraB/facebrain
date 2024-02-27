@@ -4,21 +4,22 @@ import { createPortal } from "react-dom";
 import ProfileImage from "../ProfileImage/ProfileImage";
 
 const Modal = ({ closeProfile }) => {
+  const storedUser = localStorage.getItem("user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+  console.log(user.name);
+
   return createPortal(
     <div className="absolute top-0 left-0 flex justify-center items-center z-40 bg-[rgba(0,0,0,0.5)] w-[100vw] h-[100vh]">
-      {/* <div>Modal</div>
-      <ProfileImage />
-      <button onClick={closeProfile}>Click</button> */}
-      <div class="max-w-4xl flex items-center h-auto flex-wrap mx-auto my-32 lg:my-0 text-black">
+      <div className="max-w-4xl flex items-center h-auto flex-wrap mx-auto my-32 lg:my-0 text-black">
         <div
           id="profile"
-          class="w-full rounded-lg lg:rounded-l-lg shadow-2xl bg-white mx-6"
+          className="w-full rounded-lg lg:rounded-l-lg shadow-2xl bg-white mx-6"
         >
-          <div class="p-4 md:p-12 text-center lg:text-left">
+          <div className="p-4 md:p-12 text-center lg:text-left">
             <ProfileImage w={20} h={20} />
 
-            <h1 class="text-3xl pt-8">John Doe</h1>
-            <div class="mx-auto w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
+            <h1 className="text-3xl pt-8">{user.name}</h1>
+            <div className="mx-auto w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
 
             <div className="mx-auto w-4/5 mt-5">
               <div className="flex flex-col">
@@ -79,11 +80,11 @@ const Modal = ({ closeProfile }) => {
               </div>
             </div>
 
-            <div class="flex gap-2 mx-auto pt-12 pb-8">
-              <button class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
+            <div className="flex gap-2 mx-auto pt-12 pb-8">
+              <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
                 Update
               </button>
-              <button class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
+              <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">
                 Cancel
               </button>
             </div>

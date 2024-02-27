@@ -3,6 +3,7 @@
 import Particles from "@/components/Particles/Particles";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -30,12 +31,13 @@ const Signin = () => {
     })
       .then((res) => {
         if (res.ok) {
-          window.location.href = "/";
+          // window.location.href = '/';
         }
         return res.json();
       })
       .then((data) => {
         console.log("Response:", data);
+        localStorage.setItem("user", JSON.stringify(data));
       })
       .catch((error) => {
         console.error("Error:", error);
