@@ -2,11 +2,17 @@
 
 import Particles from "@/components/Particles/Particles";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem("users") !== "") {
+      window.location.href = "/";
+    }
+  }, []);
 
   const onEmailChange = (e) => {
     setEmail(e.target.value);
