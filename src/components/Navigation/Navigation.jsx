@@ -20,6 +20,12 @@ const Navigation = ({ openProfile }) => {
     };
   }, []);
 
+  const handleSignOut = () => {
+    console.log("SignOut");
+    localStorage.removeItem("user");
+    window.location.href = "/signin";
+  };
+
   return (
     <div>
       <div className="photo-wrapper">
@@ -45,12 +51,13 @@ const Navigation = ({ openProfile }) => {
               Profile
             </p>
           </li>
-          <li>
-            <Link href={"/signin"}>
-              <p className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Sign out
-              </p>
-            </Link>
+          <li className="cursor-pointer">
+            <p
+              className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              onClick={handleSignOut}
+            >
+              Sign out
+            </p>
           </li>
         </ul>
       </div>
