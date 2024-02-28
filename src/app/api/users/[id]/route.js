@@ -15,8 +15,9 @@ export async function GET(req, { params }) {
       );
     }
 
-    // const decoded = jwt.verify(authHeader, "JWT_SECRET");
-    // console.log(decoded);
+    if (jwt.verify(authHeader, "JWT_SECRET")) {
+      console.log(decoded);
+    }
 
     const user = await db.select("*").from("users").where({ id });
     if (user.length) {
