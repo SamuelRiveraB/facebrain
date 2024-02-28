@@ -6,7 +6,6 @@ import Logo from "@/components/Logo/Logo";
 import Profile from "@/components/Profile/Profile";
 import Navigation from "@/components/Navigation/Navigation";
 import Particles from "@/components/Particles/Particles";
-import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -16,11 +15,9 @@ export default function Home() {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    // redirect("/signin");
-    console.log("Hello");
-    fetch("http://localhost:3000/api/users/")
-      .then((res) => res.json())
-      .then(console.log);
+    if (localStorage.getItem("user") === null) {
+      window.location.href = "/signin";
+    }
   }, []);
 
   const onRouteChange = (route) => {

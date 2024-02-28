@@ -1,9 +1,23 @@
 import { NextResponse } from "next/server";
 const db = require("@/db/db");
+import { headers } from "next/headers";
+const jwt = require("jsonwebtoken");
 
-export async function GET(res, { params }) {
+export async function GET(req, { params }) {
   try {
     const { id } = params;
+    const authHeader = headers().get("auth");
+    console.log(authHeader);
+    if (!authHeader) {
+      return NextResponse.json(
+        { error: "Authorization header missing" },
+        { status: 401 }
+      );
+    }
+
+    // const decoded = jwt.verify(authHeader, "JWT_SECRET");
+    // console.log(decoded);
+
     const user = await db.select("*").from("users").where({ id });
     if (user.length) {
       console.log(user);

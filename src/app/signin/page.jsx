@@ -9,7 +9,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("users") !== "") {
+    if (localStorage.getItem("user") !== null) {
       window.location.href = "/";
     }
   }, []);

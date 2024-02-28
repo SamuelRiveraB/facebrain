@@ -10,7 +10,7 @@ const Register = () => {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("users") !== "") {
+    if (localStorage.getItem("user") !== null) {
       window.location.href = "/";
     }
   }, []);
