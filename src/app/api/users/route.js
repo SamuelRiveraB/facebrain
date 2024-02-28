@@ -1,6 +1,7 @@
 const db = require("@/db/db");
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+const jwt = require("jsonwebtoken");
 
 export const database = {
   users: [
@@ -100,7 +101,14 @@ export async function POST(req, res) {
           .from("users")
           .where("email", "=", email);
         console.log(user);
-        return NextResponse.json(user[0]);
+        const jwtPayload = { email };
+        const token = jwt.sign(jwtPayload, "JWT_SECRET", {
+          expiresIn: "2 days",
+        });
+        return NextResponse.json({
+          user: user[0],
+          token,
+        });
       } else {
         return NextResponse.json(
           { error: "Invalid credentials" },

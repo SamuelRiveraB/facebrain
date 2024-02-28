@@ -5,7 +5,7 @@ import ProfileImage from "../ProfileImage/ProfileImage";
 
 const Modal = ({ closeProfile }) => {
   const storedUser = localStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  const user = storedUser ? JSON.parse(storedUser).user : null;
   console.log(user);
   const [name, setName] = React.useState(user.name);
   const [age, setAge] = React.useState(user.age);
